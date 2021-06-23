@@ -40,24 +40,36 @@ logger = logging.getLogger(__name__)
 class ReadMapper:
     """Wrapper around bowtie2."""
 
-    def index(self, ref_fasta, index_out, bt2_bmax, bt2_dcv, bt2_threads, bt2_packed):
+    def index(
+        self,
+        ref_fasta,
+        index_out,
+        bt2_bmax,
+        bt2_dcv,
+        bt2_threads,
+        bt2_packed,
+        bt2_large,
+    ):
         """Build a bowtie2 index from ref_fasta.
 
         Parameters
         ----------
-            ref_fasta : str
-                Fasta file or folder containing fasta files to index.
-                Valid extensions include '.fasta', '.fna', '.fa'
-            index_out : str
-                Path to output the index.
-            bt2_bmax : str
-                Parameter to pass to bowtie2-build --bmax argument.
-            bt2_dcv : str
-                Parameter to pass to bowtie2-build --dcv argument.
-            bt2_threads : str
-                Parameter to pass to bowtie2-build --threads argument.
-            bt2_packed : str
-                Parameter to pass to bowtie2-build --packed argument.
+        ref_fasta : str
+            Fasta file or folder containing fasta files to index.
+            Valid extensions include '.fasta', '.fna', '.fa'
+        index_out : str
+            Path to output the index.
+        bt2_bmax : str
+            Parameter to pass to bowtie2-build --bmax argument.
+        bt2_dcv : str
+            Parameter to pass to bowtie2-build --dcv argument.
+        bt2_threads : str
+            Parameter to pass to bowtie2-build --threads argument.
+        bt2_packed : str
+            Parameter to pass to bowtie2-build --packed argument.
+        bt2_large : bool
+            Whether to pass the --large-index flag to bowtie2-build.
+
         """
         files_found = 0
         total_size = 0
@@ -127,6 +139,8 @@ class ReadMapper:
             call += ["--dcv", bt2_dcv]
         if bt2_packed:
             call += ["--packed"]
+        if bt2_large:
+            call += ["--large-index"]
 
         try:
             logger.info("%s", " ".join(call))

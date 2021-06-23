@@ -100,6 +100,11 @@ command: index            create a bowtie2 index for a reference database
             action="store_true",
             help="Set the --packed flag for bowtie2-build. Used to control memory usage.",
         )
+        parser.add_argument(
+            "--bt2-large",
+            action="store_true",
+            help="Set the --large-index flag for bowtie2-build.",
+        )
 
         if len(sys.argv[2:]) < 1:
             parser.print_help()
@@ -114,6 +119,7 @@ command: index            create a bowtie2 index for a reference database
             args.bt2_dcv,
             args.bt2_threads,
             args.bt2_packed,
+            args.bt2_large,
         )
 
     def map(self):
